@@ -10,7 +10,9 @@ module.export = ether = n => {
 // Same as ether
 module.export = tokens = n => ether(n)
 
-module.export = wait = s => {
+var wait = s => {
   const milliseconds = s * 1000
   return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
+
+module.exports = wait;
