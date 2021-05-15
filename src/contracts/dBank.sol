@@ -5,20 +5,32 @@ import "./Token.sol";
 
 contract dBank {
 
-  //assign Token contract to variable
+  Token private token;
 
-  //add mappings
+  //add mappings (= python dictionary)
+  mapping(address => uint) public etherBalanceOf;
+  mapping(address => uint) public depositStart;
+  mapping(address => bool) public isDeposited;
 
   //add events
+  event Deposit(address indexed user, uint etherAmount, uint timeStart);
 
   //pass as constructor argument deployed Token contract
-  constructor() public {
-    //assign token deployed contract to variable
+  constructor(Token _token) public {
+    token = _token;
   }
-
+ 
   function deposit() payable public {
     //check if msg.sender didn't already deposited funds
     //check if msg.value is >= than 0.01 ETH
+    require(isDeposited[msg.sender] == false, 'Error, deposit is already active');
+    require(msg.value >= 1e16, 'Error, deposit amount should be greater than 0.01 ETH');
+
+    etherBalanceOf[msg.sender] = etherBalanceOf[msg.sender] + msg.value;
+    depositStart[msg.sender] = depositStart[msg.sender] + block.timestamp;
+    isDeposited[msg.sender] = true;
+
+    emit Deposit(msg.sender, msg.value, block.timestamp);
 
     //increase msg.sender ether deposit balance
     //start msg.sender hodling time

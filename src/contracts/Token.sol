@@ -9,7 +9,7 @@ contract Token is ERC20 {
   // can be pushed notification
   event MinterChanged(address indexed from, address to);
 
-  constructor() public payable ERC20("Decentralized Bank Currency", "ICK") {
+  constructor() public payable ERC20("Decentralized Financial Bank Currency", "DIFICK") {
     minter = msg.sender;
   }
 
