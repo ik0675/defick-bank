@@ -100,14 +100,38 @@ class App extends Component {
         <div className="container-fluid mt-5 text-center">
         <br></br>
           <h1> Welcome to Ick's Defi bank </h1>
-          <h2>{/*add user address*/}</h2>
+          <h2> USER ADDRESS : {this.state.account}</h2>
           <br></br>
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto">
               <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
-                {/*add Tab deposit*/} 
-                {/*add Tab withdraw*/}
+                  <Tab eventKey="deposit" title="Deposit">
+                    <div>
+                      <br/>
+                      How much do you want to deposit?
+                      <br/>
+                      (minimum amount is 0.01 ETH)
+                      <br/>
+                      (1 deposit is possible at the time)
+                      <br/>
+                      <form onSubmit={e => {
+
+                      }}>
+                        <div className='form-group mr-sm-2'>
+                          <br/>
+                          <input />
+                        </div>
+                        <button type="submit" className="btn btn-primary"> DEPOSIT </button>
+                      </form>
+                    </div>
+                  </Tab>
+                  <Tab eventKey="withdraw" title="Withdraw">
+                    <div>
+                      <br/>
+                      How much do you want to withdraw?
+                    </div>
+                  </Tab>
               </Tabs>
               </div>
             </main>
