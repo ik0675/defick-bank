@@ -62,7 +62,9 @@ class App extends Component {
 
   async deposit(amount) {
     //check if this.state.dbank is ok
-      //in try block call dBank deposit();
+    //in try block call dBank deposit();
+
+    console.log("WHAT IS AMOUNT IN DEPOSIT ", amount)
   }
 
   async withdraw(e) {
@@ -116,11 +118,24 @@ class App extends Component {
                       (1 deposit is possible at the time)
                       <br/>
                       <form onSubmit={e => {
+                        // prevent refreshing
+                        e.preventDefault();
 
+                        let amount = this.depositAmount.value;
+                        amount = amount * 10**18 // convert to wei
+                        this.deposit(amount);
                       }}>
                         <div className='form-group mr-sm-2'>
                           <br/>
-                          <input />
+                          <input 
+                            id="depositAmount"
+                            step="0.01"
+                            type="number"
+                            className="form-control form-control-md"
+                            placeholder="amount..."
+                            required
+                            ref={input => this.depositAmount = input}
+                          />
                         </div>
                         <button type="submit" className="btn btn-primary"> DEPOSIT </button>
                       </form>
