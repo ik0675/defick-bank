@@ -40,37 +40,50 @@ class App extends Component {
         const dbank = new web3.eth.Contract(dBank.abi, dBank.networks[net_id].address);
         const dbank_address = dBank.networks[net_id].address;
 
+        // const token_balance = await token.methods.balanceOf(this.state.account).call();
+        // console.log("Token balance in dbank : ", web3.utils.fromWei(token_balance));
+
         this.setState({
           token,
           dbank,
           dBankAddress: dbank_address
         })
-        console.log(dbank_address)
       } catch (e) {
         console('Error', e);
         window.alert('Contracts not deployed to the current network');
       }
-
-
     } else {
       window.alert('Please install MetaMask to see this web')
     }
-    
-
-    //if MetaMask not exists push alert
   }
 
   async deposit(amount) {
-    //check if this.state.dbank is ok
-    //in try block call dBank deposit();
-
-    console.log("WHAT IS AMOUNT IN DEPOSIT ", amount)
+    if (this.state.dbank !== 'undefined') {
+      try {
+        await this.state.dbank.methods.deposit().send({
+          value: amount.toString(),
+          from: this.state.account
+        })
+      } catch(e) {
+        console.log("Error, deposit; ", e);
+      }
+    }
   }
 
   async withdraw(e) {
     //prevent button from default click
     //check if this.state.dbank is ok
     //in try block call dBank withdraw();
+    e.preventDefault();
+    if (this.state.dbank !== 'undefined') {
+      try {
+        await this.state.dbank.methods.withdraw().send({
+          from: this.state.account
+        })
+      } catch(e) {
+        console.log("Error, withdraw; ", e);
+      }
+    }
   }
 
   constructor(props) {
@@ -144,7 +157,12 @@ class App extends Component {
                   <Tab eventKey="withdraw" title="Withdraw">
                     <div>
                       <br/>
-                      How much do you want to withdraw?
+                      How much do you want to withdraw and take interest?
+                      <br/>
+                      <br/>
+                      <div>
+                        <button type="submit" className="btn btn-primary" onClick={e => this.withdraw(e)}> WITHDRAW </button>
+                      </div>
                     </div>
                   </Tab>
               </Tabs>
